@@ -1,0 +1,38 @@
+
+body {
+  background-color: #000;
+  color: #33FF33;
+  font-family: 'Courier New', Courier, monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.terminal {
+  text-align: center;
+  width: 80%;
+}
+
+.header {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.output {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  white-space: pre-line;
+}
+
+.buttons button,
+.buttons a {
+  margin: 0 10px;
+  background-color: #111;
+  border: 1px solid #33FF33;
+  color: #33FF33;
+  padding: 8px 16px;
+  cursor: pointer;
+  text-decoration: none;
+}
