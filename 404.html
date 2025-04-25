@@ -1,0 +1,62 @@
+# Creating a 404.html content styled like a broken terminal or forgotten log
+
+error_page_html = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>haiku.exe — LOST TRANSMISSION</title>
+  <style>
+    body {
+      background-color: black;
+      color: #00FF00;
+      font-family: 'Courier New', monospace;
+      padding: 40px;
+      font-size: 1.1rem;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .glitch-title {
+      font-size: 2rem;
+      margin-bottom: 1em;
+    }
+    .code-line {
+      margin-bottom: 1em;
+    }
+    .button {
+      border: 1px solid #00FF00;
+      background: none;
+      color: #00FF00;
+      padding: 10px 20px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 20px;
+      display: inline-block;
+    }
+    .button:hover {
+      background-color: #00FF00;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="glitch-title">haiku.exe — LOST TRANSMISSION</div>
+    <div class="code-line">Codice errore: 404 [Missing Echo]</div>
+    <div class="code-line">Il file cercato non è stato trovato.</div>
+    <div class="code-line">Possibile che sia stato dimenticato, rinominato, o mai esistito.</div>
+    <div class="code-line">// log: nessuna traccia nel buffer</div>
+    <a href="/" class="button">REBOOT</a>
+  </div>
+</body>
+</html>
+"""
+
+# Save as 404.html
+error_page_path = "/mnt/data/404.html"
+with open(error_page_path, "w") as f:
+    f.write(error_page_html)
+
+error_page_path
