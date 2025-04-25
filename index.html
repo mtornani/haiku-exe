@@ -8,12 +8,31 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+<div id="status-indicator" style="position: fixed; top: 10px; right: 10px; width: 12px; height: 12px; border-radius: 50%; background: grey;"></div>
+
+<script>
+function updateStatusIndicator() {
+    const hour = new Date().getHours();
+    const indicator = document.getElementById("status-indicator");
+    if (hour >= 5 && hour < 12) {
+        indicator.style.background = "lightgreen"; // Mattina
+    } else if (hour >= 12 && hour < 17) {
+        indicator.style.background = "gold"; // Pomeriggio
+    } else if (hour >= 17 && hour < 22) {
+        indicator.style.background = "orange"; // Sera
+    } else {
+        indicator.style.background = "darkviolet"; // Notte
+    }
+}
+updateStatusIndicator();
+setInterval(updateStatusIndicator, 60000); // Aggiorna ogni minuto
+</script>
   <div class="terminal">
     <div class="header">haiku.exe_</div>
     <div class="output" id="output">> EXECUTE</div>
     <div class="buttons">
       <button onclick="generateHaiku()">RE-EXECUTE</button>
-      <a href="haiku.pdf" target="_blank">DOWNLOAD PDF</a>
+      <a href="haiku.txt" download class="button">DOWNLOAD RAW</a>
       <a href="manifesto.txt" target="_blank">MANIFESTO</a>
     </div>
   </div>
