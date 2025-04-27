@@ -2,311 +2,311 @@
 const haikuMap = {
   morning: [
     `risveglio lento
-luce nei circuiti
-caffè e pensieri 1`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 2`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 3`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 4`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 5`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 6`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 7`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 8`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 9`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 10`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 11`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 12`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 13`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 14`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 15`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 16`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 17`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 18`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 19`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 20`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 21`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 22`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 23`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 24`,
-    `risveglio lento
-luce nei circuiti
-caffè e pensieri 25`
+bit di polvere
+toccano il sole`,
+    `nodi di dati
+sciolti nel vapore
+caffè bollente`,
+    `la città dorme
+ma nei server si agita
+un sogno acerbo`,
+    `le prime luci
+pungono i terminali
+e non il cuore`,
+    `nel buio tiepido
+stringo i comandi
+come preghiere`,
+    `tastiere fredde
+cercano calore
+tra bit e polvere`,
+    `vento sottile
+muove l'algoritmo
+delle finestre`,
+    `mattino cavo
+trema il reticolato
+della memoria`,
+    `tra i fili d'acqua
+un codice si spezza
+silenziosamente`,
+    `reti scoperte
+abbracciano il nulla
+come bambini`,
+    `gocce di ping
+cadono dal cielo
+tra i cavi spenti`,
+    `un suono sordo
+bussa tra le stringhe
+del mio mattino`,
+    `il buio lascia
+una password scaduta
+sulla soglia`,
+    `linee di luce
+si infilano lente
+tra sogni stanchi`,
+    `reset improvviso
+il cielo si apre
+senza preavviso`,
+    `ho camminato
+sopra circuiti rotti
+senza spezzarmi`,
+    `gli uccelli cantano
+sopra router spenti
+un canto muto`,
+    `il primo clic
+apre una ferita
+nella quiete`,
+    `uno schermo vuoto
+specchio di un'anima
+a mezzo carico`,
+    `i motori
+riprendono fiato
+nella nebbia`,
+    `l'alba distilla
+errori minimi
+tra vecchie reti`,
+    `i pacchetti persi
+si rincorrono invano
+nel vento caldo`,
+    `dentro il sole
+un bug si nasconde
+senza paura`,
+    `scrivo parole
+e loro mi sfuggono
+nella corrente`,
+    `polvere nuova
+copre vecchi log
+ancora caldi`
   ],
   afternoon: [
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 1`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 2`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 3`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 4`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 5`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 6`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 7`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 8`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 9`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 10`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 11`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 12`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 13`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 14`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 15`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 16`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 17`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 18`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 19`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 20`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 21`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 22`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 23`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 24`,
-    `tra mail e sogni
-il sole taglia il codice
-respiro corto 25`
+    `tra gli uffici
+passano impulsi lenti
+e rabbia compressa`,
+    `la rete ansima
+sotto il peso
+ dei desideri`,
+    `ogni messaggio
+una richiesta d'aiuto
+codificata`,
+    `tra tastiere
+scivola la noia
+vestita da dovere`,
+    `debugging muto
+nessuno ascolta
+la mia fatica`,
+    `schermi bruciati
+come tramonti finti
+sulle scrivanie`,
+    `mani inquiete
+cercano appigli
+nei feed infiniti`,
+    `sotto il neon
+anche i bit tremano
+di stanchezza`,
+    `lunch break lento
+interrotto da allarmi
+che nessuno spegne`,
+    `i dati sbadigliano
+nei silos saturi
+di promesse vuote`,
+    `processi zombie
+marciano in loop
+nella rete`,
+    `tra file corrotti
+cerco un'uscita
+e trovo un muro`,
+    `l'automa ride
+mentre digito stanco
+su campi sterili`,
+    `backup falliti
+come piani vecchi
+dimenticati`,
+    `i terminali
+sudano stringhe
+senza senso`,
+    `ping instabile
+come il mio pensiero
+a metà giornata`,
+    `processi infiniti
+incatenano le ore
+alla noia`,
+    `sotto gli avatar
+tutto è polvere
+e maschere`,
+    `la rete trema
+al primo tuono
+di verità`,
+    `algoritmi ciechi
+dirigono il traffico
+della solitudine`,
+    `immagini rotte
+rimbalzano tra noi
+come vetri`,
+    `upload interrotti
+come promesse
+senza peso`,
+    `bug silenziosi
+corrodono i ponti
+sopra i sogni`,
+    `i pensieri persi
+si attaccano ai bit
+come virus`,
+    `provo a resistere
+dietro firewall
+in fiamme`
   ],
   evening: [
     `tramonto spento
 nei log di memoria
-silenzi rotti 1`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 2`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 3`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 4`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 5`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 6`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 7`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 8`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 9`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 10`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 11`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 12`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 13`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 14`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 15`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 16`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 17`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 18`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 19`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 20`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 21`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 22`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 23`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 24`,
-    `tramonto spento
-nei log di memoria
-silenzi rotti 25`
+silenzi rotti`,
+    `le luci scompaiono
+tra i rami secchi
+del web`,
+    `i server respirano
+a fatica
+tra bug dimenticati`,
+    `nella quiete
+un'eco di query
+senza risposta`,
+    `le città spente
+si riflettono
+nei monitor`,
+    `logout lento
+delle ultime speranze
+della giornata`,
+    `compilo sogni
+che crashano subito
+senza errori`,
+    `cavi tesi
+tra promesse spezzate
+e vecchie reti`,
+    `i bit si infrangono
+come onde stanche
+sulla riva`,
+    `ram vuota
+come la mente
+dopo il tramonto`,
+    `gli aggiornamenti
+scorrono pigri
+sul vetro sporco`,
+    `log out fallito
+torno a me
+tutto resta acceso`,
+    `domande aperte
+fluttuano nel server
+della sera`,
+    `scrivo errori
+tra righe di codice
+e ombre lunghe`,
+    `mi perdo lento
+nella pagina bianca
+del terminale`,
+    `tra i neon spenti
+solo un sussurro
+si propaga`,
+    `spegni la luce
+e ascolta il battito
+nudo del web`,
+    `il traffico crolla
+insieme ai miei
+pacchetti persi`,
+    `nulla da inviare
+se non il silenzio
+in formato .zip`,
+    `stringhe spezzate
+come le nostre
+vie di fuga`,
+    `girovagando
+tra siti morti
+senza bussola`,
+    `ho premuto invio
+e non è successo
+niente`,
+    `chat senza volto
+abbandonate
+nel buio`,
+    `codici errori
+come costellazioni
+nel terminale`,
+    `scrollo l'infinito
+senza mai toccare
+terra`
   ],
   night: [
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 1`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 2`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 3`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 4`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 5`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 6`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 7`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 8`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 9`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 10`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 11`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 12`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 13`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 14`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 15`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 16`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 17`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 18`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 19`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 20`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 21`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 22`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 23`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 24`,
-    `bit che si spengono
-sotto il cielo digitale
-solo rumore 25`
+    `nella notte fredda
+i server sospirano
+dati sognanti`,
+    `le finestre chiuse
+nascondono universi
+a pixel spenti`,
+    `bit sussurrano
+segreti antichi
+dentro le ombre`,
+    `pagine nere
+si aprono come voragini
+sotto le dita`,
+    `hanno chiuso tutto
+tranne la paura
+che rimbalza`,
+    `senza rumore
+trasmetto l'ultimo
+pacchetto`,
+    `ombre sintetiche
+invadono i sogni
+dei programmatori`,
+    `frame saltati
+come respiri
+nella notte fonda`,
+    `codice smarrito
+tra i banchi di nebbia
+del deep web`,
+    `i firewall
+non proteggono
+dai pensieri`,
+    `una password persa
+trema come un'onda
+nella rete`,
+    `packet loss
+uguale a perdita
+dell'anima`,
+    `gli errori 404
+dipingono il cielo
+stanotte`,
+    `cancello tracce
+prima che arrivi
+l'alba`,
+    `sogni frammentati
+nella cache
+mai svuotata`,
+    `la notte bussa
+senza chiavi
+dentro il sistema`,
+    `navigo cieco
+tra server abbandonati
+e urla mute`,
+    `il backup fallisce
+come il mio sonno
+in loop`,
+    `luci di modem
+come stelle impazzite
+sul mio tetto`,
+    `ogni sessione
+è un tentativo
+sospeso`,
+    `finestra chiusa
+nessuno bussa
+tranne i glitch`,
+    `terminali spogli
+come ossa
+nella nebbia`,
+    `scroll infinito
+di pensieri rotti
+oltre il confine`,
+    `carico errori
+e li chiamo
+speranze`,
+    `boot fallito
+provo comunque
+a respirare`
   ]
 };
 
