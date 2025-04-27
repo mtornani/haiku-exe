@@ -332,7 +332,7 @@ function generateHaiku() {
     if (index < haiku.length) {
       outputElement.innerText += haiku.charAt(index);
       index++;
-      setTimeout(type, 20);
+      setTimeout(type, 40);
     }
   }
   
