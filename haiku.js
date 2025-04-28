@@ -83,7 +83,7 @@ passano impulsi lenti
 e rabbia compressa`,
     `la rete ansima
 sotto il peso
- dei desideri`,
+dei desideri`,
     `ogni messaggio
 una richiesta d'aiuto
 codificata`,
@@ -308,7 +308,7 @@ speranze`,
 provo comunque
 a respirare`
   ]
-};
+}};
 
 function getTimeSlot() {
   const hour = new Date().getHours();
@@ -324,17 +324,17 @@ function generateHaiku() {
   const randomIndex = Math.floor(Math.random() * haikus.length);
   const haiku = haikus[randomIndex];
   const outputElement = document.getElementById("output");
-  
-  outputElement.innerText = "> ";
-  
+
+  outputElement.innerHTML = "> ";
+
   let index = 0;
   function type() {
     if (index < haiku.length) {
-      outputElement.innerText += haiku.charAt(index);
+      outputElement.innerHTML += haiku.charAt(index) === '\n' ? '<br>' : haiku.charAt(index);
       index++;
       setTimeout(type, 40);
     }
   }
-  
+
   type();
 }

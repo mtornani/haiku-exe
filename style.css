@@ -1,38 +1,70 @@
 
 body {
-  background-color: #000;
+  background-color: black;
   color: #33FF33;
   font-family: 'Courier New', Courier, monospace;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 0;
+  flex-direction: column;
 }
 
 .terminal {
   text-align: center;
-  width: 80%;
 }
 
 .header {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  font-size: 2em;
+  margin-bottom: 20px;
 }
 
 .output {
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
-  white-space: pre-line;
+  font-size: 1.5em;
+  white-space: pre-wrap;
+  margin-bottom: 30px;
 }
 
-.buttons button,
-.buttons a {
-  margin: 0 10px;
-  background-color: #111;
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+button, .button {
+  background: none;
   border: 1px solid #33FF33;
   color: #33FF33;
-  padding: 8px 16px;
-  cursor: pointer;
+  padding: 10px 20px;
   text-decoration: none;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+button:hover, .button:hover {
+  background-color: #33FF33;
+  color: black;
+}
+
+@media (max-width: 600px) {
+  .terminal {
+    width: 90%;
+  }
+
+  .header {
+    font-size: 1.5em;
+  }
+
+  .output {
+    font-size: 1.2em;
+  }
+
+  button, .button {
+    font-size: 0.9em;
+    padding: 8px 16px;
+    margin: 5px;
+  }
 }
