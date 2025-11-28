@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PROTOCOL | haiku.exe</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      overflow-y: auto;
+      height: auto;
+      min-height: 100vh;
+    }
+    
+    .protocol-container {
+      min-height: 100vh;
+      padding: 15vh 10vw;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .protocol-header {
+      margin-bottom: 8vh;
+      opacity: 0;
+      animation: glitch-in 1s ease 0.5s forwards;
+    }
+    
+    @keyframes glitch-in {
+      0% { 
+        opacity: 0; 
+        transform: translateX(-20px);
+        filter: blur(4px);
+      }
+      50% { 
+        opacity: 0.5;
+        filter: blur(2px);
+      }
+      100% { 
+        opacity: 1; 
+        transform: translateX(0);
+        filter: blur(0);
+      }
+    }
+    
+    .protocol-title {
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      color: var(--blood);
+      letter-spacing: 0.3em;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 20px rgba(139, 0, 0, 0.6);
+    }
+    
+    .protocol-meta {
+      font-size: 0.7rem;
+      color: var(--bone-dim);
+      letter-spacing: 0.2em;
+    }
+    
+    .manifesto {
+      opacity: 0;
+      animation: fade-in-slow 2s ease 1.5s forwards;
+    }
+    
+    .manifesto-section {
+      margin-bottom: 6vh;
+      padding-left: 2rem;
+      border-left: 1px solid var(--blood);
+    }
+    
+    .manifesto-section h2 {
+      font-size: 0.8rem;
+      color: var(--blood);
+      letter-spacing: 0.3em;
+      margin-bottom: 1.5rem;
+      font-weight: normal;
+    }
+    
+    .manifesto-section p {
+      font-size: 1rem;
+      color: var(--bone);
+      line-height: 1.9;
+      margin-bottom: 1.5rem;
+    }
+    
+    .manifesto-section .emphasis {
+      color: var(--blood-bright);
+      font-style: italic;
+    }
+    
+    .structure-diagram {
+      margin: 4vh 0;
+      padding: 2rem;
+      background: rgba(139, 0, 0, 0.05);
+      border: 1px solid var(--static);
+    }
+    
+    .structure-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      font-size: 0.85rem;
+    }
+    
+    .structure-number {
+      width: 30px;
+      color: var(--blood);
+      font-weight: bold;
+    }
+    
+    .structure-name {
+      width: 120px;
+      color: var(--bone);
+      letter-spacing: 0.1em;
+    }
+    
+    .structure-desc {
+      color: var(--bone-dim);
+      font-style: italic;
+    }
+    
+    .closing {
+      margin-top: 10vh;
+      padding-top: 4vh;
+      border-top: 1px solid var(--static);
+      text-align: center;
+    }
+    
+    .closing p {
+      font-size: 1.1rem;
+      color: var(--bone);
+      line-height: 2;
+      font-style: italic;
+    }
+    
+    .closing .signature {
+      margin-top: 3rem;
+      font-size: 0.8rem;
+      color: var(--blood);
+      letter-spacing: 0.3em;
+    }
+    
+    .back-link {
+      position: fixed;
+      top: 2rem;
+      left: 2rem;
+      font-size: 0.7rem;
+      color: var(--bone-dim);
+      text-decoration: none;
+      letter-spacing: 0.2em;
+      z-index: 100;
+    }
+    
+    .back-link:hover {
+      color: var(--bone);
+    }
+  </style>
+</head>
+<body>
+  <div class="scanlines"></div>
+  
+  <a href="/" class="back-link">← EXIT</a>
+  
+  <div class="protocol-container">
+    
+    <header class="protocol-header">
+      <h1 class="protocol-title">FIEND PROTOCOL</h1>
+      <div class="protocol-meta">CLASSIFICAZIONE: RISERVATO | VERSIONE: 2.0 | STATUS: ATTIVO</div>
+    </header>
+    
+    <div class="manifesto">
+      
+      <section class="manifesto-section">
+        <h2>// DICHIARAZIONE</h2>
+        <p>
+          Ho sempre avuto difficoltà a comunicare con gli altri usando il loro linguaggio.
+        </p>
+        <p>
+          <span class="emphasis">Ora dovranno capire il mio.</span>
+        </p>
+      </section>
+      
+      <section class="manifesto-section">
+        <h2>// OBIETTIVO</h2>
+        <p>
+          Questo non è contenuto. Non è intrattenimento. Non è arte per piacere.
+        </p>
+        <p>
+          Ogni video è un <span class="emphasis">mini-FIEND encounter</span>: un innesco per trasformazione personale. 
+          Chi guarda deve sentire qualcosa che non può ignorare. Una verità scomoda che non può più dimenticare.
+        </p>
+        <p>
+          L'obiettivo non è viralità. È creare un <span class="emphasis">cult following</span>. 
+          Pochi che capiscono, invece di molti che scorrono.
+        </p>
+      </section>
+      
+      <section class="manifesto-section">
+        <h2>// STRUTTURA</h2>
+        <div class="structure-diagram">
+          <div class="structure-item">
+            <span class="structure-number">01</span>
+            <span class="structure-name">VEDERE</span>
+            <span class="structure-desc">Aprire gli occhi. Riconoscere i pattern.</span>
+          </div>
+          <div class="structure-item">
+            <span class="structure-number">02</span>
+            <span class="structure-name">ACCETTARE</span>
+            <span class="structure-desc">Smettere di negare. La verità pesa.</span>
+          </div>
+          <div class="structure-item">
+            <span class="structure-number">03</span>
+            <span class="structure-name">AFFRONTARE</span>
+            <span class="structure-desc">Agire. Anche se fa paura.</span>
+          </div>
+          <div class="structure-item">
+            <span class="structure-number">04</span>
+            <span class="structure-name">INSEGNARE</span>
+            <span class="structure-desc">Trasmettere. Il ciclo ricomincia.</span>
+          </div>
+        </div>
+      </section>
+      
+      <section class="manifesto-section">
+        <h2>// METODO</h2>
+        <p>
+          Ogni trasmissione è composta da due elementi inseparabili:
+        </p>
+        <p>
+          <strong>VIDEO</strong> = domanda visiva (criptico, fotorealistico, inquietante)<br>
+          <strong>HAIKU</strong> = risposta parziale (3 righe, nessuna consolazione)
+        </p>
+        <p>
+          Insieme creano un senso. Ma <span class="emphasis">mai completo</span>. 
+          Chi guarda deve continuare a pensare. A tornare. A cercare.
+        </p>
+      </section>
+      
+      <section class="manifesto-section">
+        <h2>// ESTETICA</h2>
+        <p>
+          Riferimenti: Bray Wyatt (The Fiend), Apocalypse Now, True Detective S1, The Shining.
+        </p>
+        <p>
+          Principio: <span class="emphasis">"Questo potrebbe esistere, ma non dovrebbe."</span>
+        </p>
+        <p>
+          Fotorealistico. Spazi liminali. Luce rossa. Presenza assente. 
+          L'inquietudine viene dal reale che si comporta in modo sbagliato.
+        </p>
+      </section>
+      
+      <div class="closing">
+        <p>
+          Il video perfetto è quello dove dopo 3 visioni<br>
+          + lettura della caption<br>
+          pensi ancora:<br><br>
+          <span class="emphasis">"C'è un altro livello che mi sfugge."</span>
+        </p>
+        <div class="signature">— haiku.exe</div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <script>
+    console.log('%cHai letto il protocollo.', 'color: #8B0000;');
+    console.log('%cOra sei parte del sistema.', 'color: #666;');
+  </script>
+</body>
+</html>

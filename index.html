@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>haiku.exe</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="description" content="">
+  <meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+  
+  <!-- PHASE 0: VOID -->
+  <div id="void" class="phase active">
+    <div class="scanlines"></div>
+  </div>
+
+  <!-- PHASE 1: EMERGENCE -->
+  <div id="emergence" class="phase">
+    <div class="scanlines"></div>
+    <div class="terminal-wrapper">
+      <span id="title-glitch" class="glitch-text">haiku.exe_</span>
+      <span class="cursor">▌</span>
+    </div>
+    <div id="hidden-prompt" class="hidden-prompt">
+      <span class="dim-text">[CLICK TO EXECUTE]</span>
+    </div>
+  </div>
+
+  <!-- PHASE 2: TRANSMISSION -->
+  <div id="transmission" class="phase">
+    <div class="scanlines"></div>
+    <div class="red-overlay"></div>
+    <div class="haiku-container">
+      <div id="haiku-output" class="haiku-text"></div>
+    </div>
+    <div id="phase-indicator" class="phase-indicator">
+      <span class="protocol-label">PROTOCOL:</span>
+      <a href="/vedere" class="protocol-link">VEDERE</a>
+    </div>
+  </div>
+
+  <!-- HIDDEN: Source code easter egg -->
+  <!-- 
+    ██╗   ██╗███████╗██████╗ ███████╗██████╗ ███████╗
+    ██║   ██║██╔════╝██╔══██╗██╔════╝██╔══██╗██╔════╝
+    ██║   ██║█████╗  ██║  ██║█████╗  ██████╔╝█████╗  
+    ╚██╗ ██╔╝██╔══╝  ██║  ██║██╔══╝  ██╔══██╗██╔══╝  
+     ╚████╔╝ ███████╗██████╔╝███████╗██║  ██║███████╗
+      ╚═══╝  ╚══════╝╚═════╝ ╚══════╝╚═╝  ╚═╝╚══════╝
+    
+    Hai trovato la prima porta.
+    /vedere - /accettare - /affrontare - /insegnare
+    
+    Ma c'è di più. Cerca: /protocol
+  -->
+
+  <script src="haiku.js"></script>
+</body>
+</html>

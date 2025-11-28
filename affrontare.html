@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AFFRONTARE | haiku.exe</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      overflow-y: auto;
+      height: auto;
+      min-height: 100vh;
+    }
+    
+    .phase-page {
+      min-height: 100vh;
+      padding: 10vh 5vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    
+    .phase-header {
+      margin-bottom: 8vh;
+      text-align: center;
+    }
+    
+    .phase-number {
+      font-size: 0.7rem;
+      color: var(--bone-dim);
+      letter-spacing: 0.5em;
+      margin-bottom: 1rem;
+    }
+    
+    .phase-title {
+      font-size: clamp(2rem, 8vw, 4rem);
+      color: var(--blood);
+      letter-spacing: 0.2em;
+      text-shadow: 0 0 30px rgba(139, 0, 0, 0.5);
+    }
+    
+    .phase-subtitle {
+      font-size: 0.85rem;
+      color: var(--bone-dim);
+      margin-top: 1rem;
+      font-style: italic;
+    }
+    
+    .transmission-list {
+      max-width: 800px;
+      width: 100%;
+    }
+    
+    .transmission-item {
+      margin-bottom: 6vh;
+      padding: 2rem;
+      border-left: 1px solid var(--blood);
+      opacity: 0;
+      animation: fade-in-up 0.8s ease forwards;
+    }
+    
+    .transmission-item:nth-child(1) { animation-delay: 0.5s; }
+    .transmission-item:nth-child(2) { animation-delay: 0.8s; }
+    .transmission-item:nth-child(3) { animation-delay: 1.1s; }
+    .transmission-item:nth-child(4) { animation-delay: 1.4s; }
+    .transmission-item:nth-child(5) { animation-delay: 1.7s; }
+    
+    @keyframes fade-in-up {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .transmission-id {
+      font-size: 0.7rem;
+      color: var(--blood);
+      letter-spacing: 0.3em;
+      margin-bottom: 1rem;
+    }
+    
+    .transmission-haiku {
+      font-size: 1.1rem;
+      color: var(--bone);
+      line-height: 2;
+      white-space: pre-wrap;
+      margin-bottom: 1.5rem;
+    }
+    
+    .transmission-link {
+      font-size: 0.75rem;
+      color: var(--bone-dim);
+      text-decoration: none;
+      letter-spacing: 0.2em;
+      transition: color 0.3s;
+    }
+    
+    .transmission-link:hover {
+      color: var(--blood);
+    }
+    
+    .transmission-link::before {
+      content: '▶ ';
+      opacity: 0.5;
+    }
+    
+    .transmission-item.pending {
+      opacity: 0.3;
+      border-left-color: var(--bone-dim);
+    }
+    
+    .nav-footer {
+      margin-top: 10vh;
+      padding: 2rem;
+      text-align: center;
+      border-top: 1px solid var(--static);
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 3rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .nav-link {
+      font-size: 0.75rem;
+      color: var(--bone-dim);
+      text-decoration: none;
+      letter-spacing: 0.3em;
+      transition: color 0.3s;
+    }
+    
+    .nav-link:hover {
+      color: var(--blood);
+    }
+    
+    .nav-link.current {
+      color: var(--blood);
+      pointer-events: none;
+    }
+    
+    .nav-link.locked {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    
+    .back-link {
+      position: fixed;
+      top: 2rem;
+      left: 2rem;
+      font-size: 0.7rem;
+      color: var(--bone-dim);
+      text-decoration: none;
+      letter-spacing: 0.2em;
+      z-index: 100;
+    }
+    
+    .back-link:hover {
+      color: var(--bone);
+    }
+  </style>
+</head>
+<body>
+  <div class="scanlines"></div>
+  <div class="red-overlay"></div>
+  
+  <a href="/" class="back-link">← EXIT</a>
+  
+  <div class="phase-page">
+    <header class="phase-header">
+      <div class="phase-number">PROTOCOL 03 / 04</div>
+      <h1 class="phase-title">AFFRONTARE</h1>
+      <p class="phase-subtitle">Sapere non basta. Devi attraversare.</p>
+    </header>
+    
+    <div class="transmission-list">
+      
+      <div class="transmission-item pending">
+        <div class="transmission-id">TRANSMISSION_010</div>
+        <div class="transmission-haiku">[PENDING BROADCAST]</div>
+      </div>
+      
+      <div class="transmission-item pending">
+        <div class="transmission-id">TRANSMISSION_011</div>
+        <div class="transmission-haiku">[PENDING BROADCAST]</div>
+      </div>
+      
+      <div class="transmission-item pending">
+        <div class="transmission-id">TRANSMISSION_012</div>
+        <div class="transmission-haiku">[PENDING BROADCAST]</div>
+      </div>
+      
+    </div>
+    
+    <nav class="nav-footer">
+      <div class="nav-links">
+        <a href="/vedere" class="nav-link">VEDERE</a>
+        <a href="/accettare" class="nav-link">ACCETTARE</a>
+        <a href="/affrontare" class="nav-link current">AFFRONTARE</a>
+        <a href="/insegnare" class="nav-link locked" title="Complete AFFRONTARE first">INSEGNARE</a>
+      </div>
+    </nav>
+  </div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+# haiku.exe — FIEND PROTOCOL
+# 
+# Non c'è niente da indicizzare qui.
+# Solo porte per chi sa dove cercare.
+#
+# /vedere
+# /accettare  
+# /affrontare
+# /insegnare
+# /protocol
+#
+# Se stai leggendo questo, sei già dentro.
+
+User-agent: *
+Disallow: /
+
+# LET ME IN
