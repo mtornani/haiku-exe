@@ -60,11 +60,12 @@
       animation: fade-in-up 0.8s ease forwards;
     }
     
-    .transmission-item:nth-child(1) { animation-delay: 0.5s; }
-    .transmission-item:nth-child(2) { animation-delay: 0.8s; }
-    .transmission-item:nth-child(3) { animation-delay: 1.1s; }
-    .transmission-item:nth-child(4) { animation-delay: 1.4s; }
-    .transmission-item:nth-child(5) { animation-delay: 1.7s; }
+    .transmission-item:nth-child(1) { animation-delay: 0.3s; }
+    .transmission-item:nth-child(2) { animation-delay: 0.5s; }
+    .transmission-item:nth-child(3) { animation-delay: 0.7s; }
+    .transmission-item:nth-child(4) { animation-delay: 0.9s; }
+    .transmission-item:nth-child(5) { animation-delay: 1.1s; }
+    .transmission-item:nth-child(6) { animation-delay: 1.3s; }
     
     @keyframes fade-in-up {
       from {
@@ -109,11 +110,6 @@
       opacity: 0.5;
     }
     
-    .transmission-item.pending {
-      opacity: 0.3;
-      border-left-color: var(--bone-dim);
-    }
-    
     .nav-footer {
       margin-top: 10vh;
       padding: 2rem;
@@ -143,11 +139,6 @@
     .nav-link.current {
       color: var(--blood);
       pointer-events: none;
-    }
-    
-    .nav-link.locked {
-      opacity: 0.3;
-      cursor: not-allowed;
     }
     
     .back-link {
@@ -181,19 +172,52 @@
     
     <div class="transmission-list">
       
-      <div class="transmission-item pending">
-        <div class="transmission-id">TRANSMISSION_005</div>
-        <div class="transmission-haiku">[PENDING BROADCAST]</div>
-      </div>
-      
-      <div class="transmission-item pending">
-        <div class="transmission-id">TRANSMISSION_006</div>
-        <div class="transmission-haiku">[PENDING BROADCAST]</div>
-      </div>
-      
-      <div class="transmission-item pending">
+      <div class="transmission-item">
         <div class="transmission-id">TRANSMISSION_007</div>
-        <div class="transmission-haiku">[PENDING BROADCAST]</div>
+        <div class="transmission-haiku">Panchina. Città che corre.
+Ti siedi. Lui si siede accanto.
+Non era lì un secondo fa.</div>
+        <a href="https://www.tiktok.com/@kurtz.compound" target="_blank" class="transmission-link">WATCH TRANSMISSION</a>
+      </div>
+      
+      <div class="transmission-item">
+        <div class="transmission-id">TRANSMISSION_008</div>
+        <div class="transmission-haiku">Soglia. Devi passare.
+Lui blocca la porta, immobile.
+Passi attraverso. Nessun contatto.</div>
+        <a href="https://www.tiktok.com/@kurtz.compound" target="_blank" class="transmission-link">WATCH TRANSMISSION</a>
+      </div>
+      
+      <div class="transmission-item">
+        <div class="transmission-id">TRANSMISSION_009</div>
+        <div class="transmission-haiku">Fai il caffè. Routine del mattino.
+Nell'angolo della cucina, immobile.
+Guarda. Non dice nulla.</div>
+        <a href="https://www.tiktok.com/@kurtz.compound" target="_blank" class="transmission-link">WATCH TRANSMISSION</a>
+      </div>
+      
+      <div class="transmission-item">
+        <div class="transmission-id">TRANSMISSION_010</div>
+        <div class="transmission-haiku">Nebbia. Non sai dove sei.
+Lui emerge. Sempre a pochi passi.
+La nebbia non nasconde tutto.</div>
+        <a href="https://www.tiktok.com/@kurtz.compound" target="_blank" class="transmission-link">WATCH TRANSMISSION</a>
+      </div>
+      
+      <div class="transmission-item">
+        <div class="transmission-id">TRANSMISSION_011</div>
+        <div class="transmission-haiku">Ti svegli. 3 AM.
+Nell'angolo della stanza, in piedi.
+Guarda. Aspetta. Non dorme mai.</div>
+        <a href="https://www.tiktok.com/@kurtz.compound" target="_blank" class="transmission-link">WATCH TRANSMISSION</a>
+      </div>
+      
+      <div class="transmission-item">
+        <div class="transmission-id">TRANSMISSION_012 [PHASE END]</div>
+        <div class="transmission-haiku">Bosco. Nebbia. Lui di fronte.
+"Lascia andare tutto. Tieni il nulla."
+Silenzio. Comprendi.</div>
+        <a href="https://www.tiktok.com/@kurtz.compound" target="_blank" class="transmission-link">WATCH TRANSMISSION</a>
       </div>
       
     </div>
@@ -202,8 +226,8 @@
       <div class="nav-links">
         <a href="/vedere" class="nav-link">VEDERE</a>
         <a href="/accettare" class="nav-link current">ACCETTARE</a>
-        <a href="/affrontare" class="nav-link locked" title="Complete ACCETTARE first">AFFRONTARE</a>
-        <a href="/insegnare" class="nav-link locked" title="Complete AFFRONTARE first">INSEGNARE</a>
+        <a href="/affrontare" class="nav-link">AFFRONTARE</a>
+        <a href="/insegnare" class="nav-link">INSEGNARE</a>
       </div>
     </nav>
   </div>
