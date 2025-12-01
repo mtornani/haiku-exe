@@ -1,5 +1,6 @@
 /* ========================================
    HAIKU.EXE - PROTOCOL ENGINE
+   v2.0 - con audio drone + easter egg mobile
    ======================================== */
 
 // Haiku della serie FIEND PROTOCOL - Fase VEDERE
@@ -15,6 +16,9 @@ const protocolHaiku = [
 let currentPhase = 0;
 let hasInteracted = false;
 let typingTimeout;
+let audioContext = null;
+let droneOscillators = [];
+let droneGain = null;
 
 // DOM Elements
 const phases = {
@@ -25,6 +29,105 @@ const phases = {
 
 const hiddenPrompt = document.getElementById('hidden-prompt');
 const haikuOutput = document.getElementById('haiku-output');
+
+/* ========================================
+   DRONE AUDIO ENGINE
+   ======================================== */
+
+function initDroneAudio() {
+  if (audioContext) return; // già inizializzato
+  
+  try {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    
+    // Master gain (volume generale)
+    droneGain = audioContext.createGain();
+    droneGain.gain.setValueAtTime(0, audioContext.currentTime);
+    droneGain.connect(audioContext.destination);
+    
+    // Frequenze per drone inquietante (accordo diminuito basso)
+    const frequencies = [55, 65.41, 77.78, 92.50]; // A1, C2, Eb2, Gb2
+    
+    frequencies.forEach((freq, i) => {
+      // Oscillatore principale
+      const osc = audioContext.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, audioContext.currentTime);
+      
+      // Leggera modulazione per movimento
+      const lfo = audioContext.createOscillator();
+      lfo.type = 'sine';
+      lfo.frequency.setValueAtTime(0.05 + (i * 0.02), audioContext.currentTime); // Molto lento
+      
+      const lfoGain = audioContext.createGain();
+      lfoGain.gain.setValueAtTime(1 + (i * 0.5), audioContext.currentTime); // Leggera variazione freq
+      
+      lfo.connect(lfoGain);
+      lfoGain.connect(osc.frequency);
+      
+      // Gain individuale per bilanciamento
+      const oscGain = audioContext.createGain();
+      oscGain.gain.setValueAtTime(0.15 / (i + 1), audioContext.currentTime); // Più basso = più forte
+      
+      osc.connect(oscGain);
+      oscGain.connect(droneGain);
+      
+      osc.start();
+      lfo.start();
+      
+      droneOscillators.push({ osc, lfo, oscGain });
+    });
+    
+    // Aggiungi rumore sottile (hiss)
+    const noiseBuffer = audioContext.createBuffer(1, audioContext.sampleRate * 2, audioContext.sampleRate);
+    const noiseData = noiseBuffer.getChannelData(0);
+    for (let i = 0; i < noiseData.length; i++) {
+      noiseData[i] = (Math.random() * 2 - 1) * 0.02; // Molto sottile
+    }
+    
+    const noiseSource = audioContext.createBufferSource();
+    noiseSource.buffer = noiseBuffer;
+    noiseSource.loop = true;
+    
+    const noiseFilter = audioContext.createBiquadFilter();
+    noiseFilter.type = 'lowpass';
+    noiseFilter.frequency.setValueAtTime(500, audioContext.currentTime);
+    
+    const noiseGain = audioContext.createGain();
+    noiseGain.gain.setValueAtTime(0.3, audioContext.currentTime);
+    
+    noiseSource.connect(noiseFilter);
+    noiseFilter.connect(noiseGain);
+    noiseGain.connect(droneGain);
+    noiseSource.start();
+    
+  } catch (e) {
+    console.log('Audio non supportato');
+  }
+}
+
+function startDrone() {
+  if (!audioContext || !droneGain) return;
+  
+  // Resume context se sospeso (requisito browser)
+  if (audioContext.state === 'suspended') {
+    audioContext.resume();
+  }
+  
+  // Fade in lento (5 secondi)
+  droneGain.gain.cancelScheduledValues(audioContext.currentTime);
+  droneGain.gain.setValueAtTime(droneGain.gain.value, audioContext.currentTime);
+  droneGain.gain.linearRampToValueAtTime(0.4, audioContext.currentTime + 5);
+}
+
+function stopDrone() {
+  if (!audioContext || !droneGain) return;
+  
+  // Fade out
+  droneGain.gain.cancelScheduledValues(audioContext.currentTime);
+  droneGain.gain.setValueAtTime(droneGain.gain.value, audioContext.currentTime);
+  droneGain.gain.linearRampToValueAtTime(0, audioContext.currentTime + 2);
+}
 
 /* ========================================
    PHASE TRANSITIONS
@@ -42,7 +145,7 @@ function transitionWithGlitch(fromPhase, toPhase, callback) {
   // Add glitch effect
   document.body.classList.add('glitch-transition');
   
-  // Play static sound (optional - add audio later)
+  // Play static sound
   playStaticBurst();
   
   setTimeout(() => {
@@ -85,33 +188,41 @@ function typeHaiku(text, element, callback) {
 }
 
 /* ========================================
-   AUDIO (subtle static burst)
+   STATIC BURST AUDIO
    ======================================== */
 
 function playStaticBurst() {
-  // Create audio context for static noise
+  if (!audioContext) {
+    try {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    } catch (e) {
+      return;
+    }
+  }
+  
   try {
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const bufferSize = audioCtx.sampleRate * 0.15; // 150ms
-    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    const bufferSize = audioContext.sampleRate * 0.2; // 200ms
+    const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
     const data = buffer.getChannelData(0);
     
     for (let i = 0; i < bufferSize; i++) {
-      data[i] = (Math.random() * 2 - 1) * 0.1; // Low volume static
+      // Decaying static
+      const decay = 1 - (i / bufferSize);
+      data[i] = (Math.random() * 2 - 1) * 0.15 * decay;
     }
     
-    const source = audioCtx.createBufferSource();
+    const source = audioContext.createBufferSource();
     source.buffer = buffer;
     
-    const gainNode = audioCtx.createGain();
-    gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+    const gainNode = audioContext.createGain();
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.2);
     
     source.connect(gainNode);
-    gainNode.connect(audioCtx.destination);
+    gainNode.connect(audioContext.destination);
     source.start();
   } catch (e) {
-    // Audio not supported, fail silently
+    // Fail silently
   }
 }
 
@@ -138,11 +249,19 @@ function executeTransmission() {
   if (hasInteracted) return;
   hasInteracted = true;
   
+  // Inizializza e avvia drone audio
+  initDroneAudio();
+  
   // Select random haiku from protocol
   const haiku = protocolHaiku[Math.floor(Math.random() * protocolHaiku.length)];
   
   // Transition to transmission phase
   transitionWithGlitch('emergence', 'transmission', () => {
+    // Avvia drone dopo la transizione
+    setTimeout(() => {
+      startDrone();
+    }, 500);
+    
     // Type the haiku
     setTimeout(() => {
       typeHaiku(haiku, haikuOutput);
@@ -156,6 +275,13 @@ function executeTransmission() {
 
 // Click anywhere during emergence phase
 document.addEventListener('click', (e) => {
+  if (phases.emergence.classList.contains('active') && !hasInteracted) {
+    executeTransmission();
+  }
+});
+
+// Touch support
+document.addEventListener('touchend', (e) => {
   if (phases.emergence.classList.contains('active') && !hasInteracted) {
     executeTransmission();
   }
@@ -175,13 +301,13 @@ setTimeout(() => {
   if (phases.emergence.classList.contains('active') && !hasInteracted) {
     executeTransmission();
   }
-}, 15000); // 15 seconds of waiting
+}, 15000);
 
 /* ========================================
    EASTER EGGS
    ======================================== */
 
-// Konami code reveals something
+// Konami code (desktop)
 let konamiSequence = [];
 const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
 
@@ -190,34 +316,106 @@ document.addEventListener('keydown', (e) => {
   konamiSequence = konamiSequence.slice(-10);
   
   if (konamiSequence.join(',') === konamiCode.join(',')) {
-    // Easter egg: reveal hidden message
     revealSecret();
   }
 });
 
+// Triple tap (mobile) - sul titolo o ovunque nella fase transmission
+let tapCount = 0;
+let tapTimeout;
+const TAP_DELAY = 400; // ms tra i tap
+
+document.addEventListener('touchend', (e) => {
+  // Solo nella fase transmission o emergence
+  if (!phases.transmission.classList.contains('active') && !phases.emergence.classList.contains('active')) {
+    return;
+  }
+  
+  tapCount++;
+  
+  if (tapCount === 1) {
+    tapTimeout = setTimeout(() => {
+      tapCount = 0;
+    }, TAP_DELAY * 3);
+  }
+  
+  if (tapCount >= 3) {
+    clearTimeout(tapTimeout);
+    tapCount = 0;
+    revealSecret();
+  }
+});
+
+// Anche triple-tap sul titolo specificamente
+const titleElement = document.getElementById('title-glitch');
+if (titleElement) {
+  let titleTapCount = 0;
+  let titleTapTimeout;
+  
+  titleElement.addEventListener('touchend', (e) => {
+    e.stopPropagation();
+    titleTapCount++;
+    
+    if (titleTapCount === 1) {
+      titleTapTimeout = setTimeout(() => {
+        titleTapCount = 0;
+      }, TAP_DELAY * 3);
+    }
+    
+    if (titleTapCount >= 3) {
+      clearTimeout(titleTapTimeout);
+      titleTapCount = 0;
+      revealSecret();
+    }
+  });
+}
+
 function revealSecret() {
+  // Evita duplicati
+  if (document.querySelector('.secret-message')) return;
+  
+  // Glitch effect
+  document.body.classList.add('glitch-transition');
+  
+  // Play static
+  playStaticBurst();
+  
+  setTimeout(() => {
+    document.body.classList.remove('glitch-transition');
+  }, 300);
+  
   const secret = document.createElement('div');
+  secret.className = 'secret-message';
   secret.style.cssText = `
     position: fixed;
-    bottom: 20px;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    color: #8B0000;
-    font-family: monospace;
-    font-size: 0.8rem;
-    letter-spacing: 0.2em;
+    transform: translate(-50%, -50%);
+    color: #FF0000;
+    font-family: 'Courier New', monospace;
+    font-size: clamp(1.5rem, 8vw, 3rem);
+    letter-spacing: 0.3em;
+    text-shadow: 0 0 30px #FF0000, 0 0 60px #8B0000;
     opacity: 0;
-    transition: opacity 2s;
-    z-index: 2000;
+    transition: opacity 0.5s;
+    z-index: 9999;
+    text-align: center;
+    pointer-events: none;
   `;
   secret.textContent = 'LET ME IN';
   document.body.appendChild(secret);
   
   setTimeout(() => secret.style.opacity = '1', 100);
+  
+  // Dopo 2 secondi, mostra hint per /protocol
+  setTimeout(() => {
+    secret.innerHTML = 'LET ME IN<br><span style="font-size: 0.4em; opacity: 0.6;">/protocol</span>';
+  }, 2000);
+  
   setTimeout(() => {
     secret.style.opacity = '0';
-    setTimeout(() => secret.remove(), 2000);
-  }, 5000);
+    setTimeout(() => secret.remove(), 500);
+  }, 4000);
 }
 
 // Console message for source divers
