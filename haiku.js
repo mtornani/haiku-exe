@@ -1,6 +1,6 @@
 /* ========================================
    HAIKU.EXE - PROTOCOL ENGINE
-   v2.0 - con audio drone + easter egg mobile
+   v2.1 - drone potenziato stile camera anecoica
    ======================================== */
 
 // Haiku della serie FIEND PROTOCOL - Fase VEDERE
@@ -17,8 +17,8 @@ let currentPhase = 0;
 let hasInteracted = false;
 let typingTimeout;
 let audioContext = null;
-let droneOscillators = [];
 let droneGain = null;
+let isAudioInitialized = false;
 
 // DOM Elements
 const phases = {
@@ -31,102 +31,222 @@ const hiddenPrompt = document.getElementById('hidden-prompt');
 const haikuOutput = document.getElementById('haiku-output');
 
 /* ========================================
-   DRONE AUDIO ENGINE
+   DRONE AUDIO ENGINE - CAMERA ANECOICA STYLE
+   Frequenze che inducono disagio psicologico
    ======================================== */
 
 function initDroneAudio() {
-  if (audioContext) return; // già inizializzato
+  if (isAudioInitialized) return;
+  isAudioInitialized = true;
   
   try {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
     
-    // Master gain (volume generale)
+    // Master gain
     droneGain = audioContext.createGain();
     droneGain.gain.setValueAtTime(0, audioContext.currentTime);
     droneGain.connect(audioContext.destination);
     
-    // Frequenze per drone inquietante (accordo diminuito basso)
-    const frequencies = [55, 65.41, 77.78, 92.50]; // A1, C2, Eb2, Gb2
+    // === LAYER 1: Frequenze infrasoniche (disagio fisico) ===
+    // 18-19 Hz - sotto la soglia udibile ma percepibile come pressione
+    const infrasonic = audioContext.createOscillator();
+    infrasonic.type = 'sine';
+    infrasonic.frequency.setValueAtTime(18.5, audioContext.currentTime);
     
-    frequencies.forEach((freq, i) => {
-      // Oscillatore principale
+    const infraGain = audioContext.createGain();
+    infraGain.gain.setValueAtTime(0.7, audioContext.currentTime);
+    infrasonic.connect(infraGain);
+    infraGain.connect(droneGain);
+    infrasonic.start();
+    
+    // === LAYER 2: Drone basso (fondamento) ===
+    // Tritono - l'intervallo del diavolo
+    const bassFreqs = [55, 77.78]; // A1 e Eb2 - tritono
+    bassFreqs.forEach((freq, i) => {
       const osc = audioContext.createOscillator();
-      osc.type = 'sine';
+      osc.type = 'sawtooth'; // Più ricco di armoniche
       osc.frequency.setValueAtTime(freq, audioContext.currentTime);
       
-      // Leggera modulazione per movimento
+      // Filtro per togliere harshness ma mantenere corpo
+      const filter = audioContext.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(200, audioContext.currentTime);
+      filter.Q.setValueAtTime(1, audioContext.currentTime);
+      
+      // LFO lento per pulsazione inquietante
       const lfo = audioContext.createOscillator();
       lfo.type = 'sine';
-      lfo.frequency.setValueAtTime(0.05 + (i * 0.02), audioContext.currentTime); // Molto lento
+      lfo.frequency.setValueAtTime(0.1 + (i * 0.07), audioContext.currentTime);
       
       const lfoGain = audioContext.createGain();
-      lfoGain.gain.setValueAtTime(1 + (i * 0.5), audioContext.currentTime); // Leggera variazione freq
+      lfoGain.gain.setValueAtTime(3, audioContext.currentTime);
       
       lfo.connect(lfoGain);
       lfoGain.connect(osc.frequency);
       
-      // Gain individuale per bilanciamento
       const oscGain = audioContext.createGain();
-      oscGain.gain.setValueAtTime(0.15 / (i + 1), audioContext.currentTime); // Più basso = più forte
+      oscGain.gain.setValueAtTime(0.4, audioContext.currentTime);
+      
+      osc.connect(filter);
+      filter.connect(oscGain);
+      oscGain.connect(droneGain);
+      
+      osc.start();
+      lfo.start();
+    });
+    
+    // === LAYER 3: Frequenze medie disturbanti ===
+    // Simula il "suono del silenzio" - tinnito artificiale
+    const tinnitusFreqs = [3800, 4200, 7500]; // Frequenze che simulano acufene
+    tinnitusFreqs.forEach((freq, i) => {
+      const osc = audioContext.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, audioContext.currentTime);
+      
+      // Modulazione molto lenta per renderlo "vivo"
+      const lfo = audioContext.createOscillator();
+      lfo.type = 'sine';
+      lfo.frequency.setValueAtTime(0.03 + (i * 0.02), audioContext.currentTime);
+      
+      const lfoGain = audioContext.createGain();
+      lfoGain.gain.setValueAtTime(15, audioContext.currentTime);
+      
+      lfo.connect(lfoGain);
+      lfoGain.connect(osc.frequency);
+      
+      const oscGain = audioContext.createGain();
+      // Volume basso ma percepibile - come acufene reale
+      oscGain.gain.setValueAtTime(0.03 - (i * 0.008), audioContext.currentTime);
       
       osc.connect(oscGain);
       oscGain.connect(droneGain);
       
       osc.start();
       lfo.start();
-      
-      droneOscillators.push({ osc, lfo, oscGain });
     });
     
-    // Aggiungi rumore sottile (hiss)
-    const noiseBuffer = audioContext.createBuffer(1, audioContext.sampleRate * 2, audioContext.sampleRate);
+    // === LAYER 4: Battimenti binaurali (ansia) ===
+    // Due frequenze vicine creano pulsazione nel cervello
+    const binauralBase = 110; // A2
+    const binauralOffset = 4; // 4 Hz difference = theta waves (ansia)
+    
+    const leftOsc = audioContext.createOscillator();
+    leftOsc.type = 'sine';
+    leftOsc.frequency.setValueAtTime(binauralBase, audioContext.currentTime);
+    
+    const rightOsc = audioContext.createOscillator();
+    rightOsc.type = 'sine';
+    rightOsc.frequency.setValueAtTime(binauralBase + binauralOffset, audioContext.currentTime);
+    
+    const binauralGain = audioContext.createGain();
+    binauralGain.gain.setValueAtTime(0.25, audioContext.currentTime);
+    
+    leftOsc.connect(binauralGain);
+    rightOsc.connect(binauralGain);
+    binauralGain.connect(droneGain);
+    
+    leftOsc.start();
+    rightOsc.start();
+    
+    // === LAYER 5: Rumore filtrato (presenza spettrale) ===
+    const noiseLength = audioContext.sampleRate * 4;
+    const noiseBuffer = audioContext.createBuffer(1, noiseLength, audioContext.sampleRate);
     const noiseData = noiseBuffer.getChannelData(0);
-    for (let i = 0; i < noiseData.length; i++) {
-      noiseData[i] = (Math.random() * 2 - 1) * 0.02; // Molto sottile
+    
+    for (let i = 0; i < noiseLength; i++) {
+      noiseData[i] = Math.random() * 2 - 1;
     }
     
     const noiseSource = audioContext.createBufferSource();
     noiseSource.buffer = noiseBuffer;
     noiseSource.loop = true;
     
+    // Filtro passa-banda per suono "vento in corridoio vuoto"
     const noiseFilter = audioContext.createBiquadFilter();
-    noiseFilter.type = 'lowpass';
-    noiseFilter.frequency.setValueAtTime(500, audioContext.currentTime);
+    noiseFilter.type = 'bandpass';
+    noiseFilter.frequency.setValueAtTime(400, audioContext.currentTime);
+    noiseFilter.Q.setValueAtTime(0.5, audioContext.currentTime);
+    
+    // LFO sul filtro per movimento
+    const noiseLfo = audioContext.createOscillator();
+    noiseLfo.type = 'sine';
+    noiseLfo.frequency.setValueAtTime(0.05, audioContext.currentTime);
+    
+    const noiseLfoGain = audioContext.createGain();
+    noiseLfoGain.gain.setValueAtTime(200, audioContext.currentTime);
+    
+    noiseLfo.connect(noiseLfoGain);
+    noiseLfoGain.connect(noiseFilter.frequency);
     
     const noiseGain = audioContext.createGain();
-    noiseGain.gain.setValueAtTime(0.3, audioContext.currentTime);
+    noiseGain.gain.setValueAtTime(0.15, audioContext.currentTime);
     
     noiseSource.connect(noiseFilter);
     noiseFilter.connect(noiseGain);
     noiseGain.connect(droneGain);
+    
     noiseSource.start();
+    noiseLfo.start();
+    
+    // === LAYER 6: Sub-pulse (battito cardiaco distorto) ===
+    const pulseOsc = audioContext.createOscillator();
+    pulseOsc.type = 'sine';
+    pulseOsc.frequency.setValueAtTime(35, audioContext.currentTime); // Sub-bass
+    
+    // Modulazione per creare "pulse"
+    const pulseLfo = audioContext.createOscillator();
+    pulseLfo.type = 'square';
+    pulseLfo.frequency.setValueAtTime(0.8, audioContext.currentTime); // ~48 BPM - battito lento, inquietante
+    
+    const pulseLfoGain = audioContext.createGain();
+    pulseLfoGain.gain.setValueAtTime(0.5, audioContext.currentTime);
+    
+    const pulseGain = audioContext.createGain();
+    pulseGain.gain.setValueAtTime(0.35, audioContext.currentTime);
+    
+    pulseLfo.connect(pulseLfoGain);
+    pulseLfoGain.connect(pulseGain.gain);
+    
+    pulseOsc.connect(pulseGain);
+    pulseGain.connect(droneGain);
+    
+    pulseOsc.start();
+    pulseLfo.start();
+    
+    console.log('Drone audio inizializzato');
     
   } catch (e) {
-    console.log('Audio non supportato');
+    console.error('Errore audio:', e);
   }
 }
 
 function startDrone() {
-  if (!audioContext || !droneGain) return;
-  
-  // Resume context se sospeso (requisito browser)
-  if (audioContext.state === 'suspended') {
-    audioContext.resume();
+  if (!audioContext || !droneGain) {
+    console.log('Audio context non pronto');
+    return;
   }
   
-  // Fade in lento (5 secondi)
+  // Resume context se sospeso
+  if (audioContext.state === 'suspended') {
+    audioContext.resume().then(() => {
+      console.log('Audio context resumed');
+    });
+  }
+  
+  // Fade in (8 secondi per buildup graduale)
   droneGain.gain.cancelScheduledValues(audioContext.currentTime);
-  droneGain.gain.setValueAtTime(droneGain.gain.value, audioContext.currentTime);
-  droneGain.gain.linearRampToValueAtTime(0.4, audioContext.currentTime + 5);
+  droneGain.gain.setValueAtTime(0, audioContext.currentTime);
+  droneGain.gain.linearRampToValueAtTime(0.85, audioContext.currentTime + 8);
+  
+  console.log('Drone started - volume target: 0.85');
 }
 
 function stopDrone() {
   if (!audioContext || !droneGain) return;
   
-  // Fade out
   droneGain.gain.cancelScheduledValues(audioContext.currentTime);
   droneGain.gain.setValueAtTime(droneGain.gain.value, audioContext.currentTime);
-  droneGain.gain.linearRampToValueAtTime(0, audioContext.currentTime + 2);
+  droneGain.gain.linearRampToValueAtTime(0, audioContext.currentTime + 3);
 }
 
 /* ========================================
@@ -142,10 +262,7 @@ function transitionWithGlitch(fromPhase, toPhase, callback) {
   const from = phases[fromPhase];
   const to = phases[toPhase];
   
-  // Add glitch effect
   document.body.classList.add('glitch-transition');
-  
-  // Play static sound
   playStaticBurst();
   
   setTimeout(() => {
@@ -176,7 +293,6 @@ function typeHaiku(text, element, callback) {
       }
       index++;
       
-      // Variable speed for rhythm
       const delay = char === '\n' ? 400 : (Math.random() * 40 + 30);
       typingTimeout = setTimeout(type, delay);
     } else if (callback) {
@@ -192,34 +308,28 @@ function typeHaiku(text, element, callback) {
    ======================================== */
 
 function playStaticBurst() {
-  if (!audioContext) {
-    try {
-      audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    } catch (e) {
-      return;
-    }
-  }
-  
   try {
-    const bufferSize = audioContext.sampleRate * 0.2; // 200ms
-    const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+    const ctx = audioContext || new (window.AudioContext || window.webkitAudioContext)();
+    if (!audioContext) audioContext = ctx;
+    
+    const bufferSize = ctx.sampleRate * 0.25;
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
     const data = buffer.getChannelData(0);
     
     for (let i = 0; i < bufferSize; i++) {
-      // Decaying static
       const decay = 1 - (i / bufferSize);
-      data[i] = (Math.random() * 2 - 1) * 0.15 * decay;
+      data[i] = (Math.random() * 2 - 1) * 0.4 * decay;
     }
     
-    const source = audioContext.createBufferSource();
+    const source = ctx.createBufferSource();
     source.buffer = buffer;
     
-    const gainNode = audioContext.createGain();
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.2);
+    const gainNode = ctx.createGain();
+    gainNode.gain.setValueAtTime(0.5, ctx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
     
     source.connect(gainNode);
-    gainNode.connect(audioContext.destination);
+    gainNode.connect(ctx.destination);
     source.start();
   } catch (e) {
     // Fail silently
@@ -231,13 +341,10 @@ function playStaticBurst() {
    ======================================== */
 
 function startSequence() {
-  // Phase 0: Void (3 seconds of nothing)
   activatePhase('void');
   
   setTimeout(() => {
-    // Phase 1: Emergence
     transitionWithGlitch('void', 'emergence', () => {
-      // Show hidden prompt after delay
       setTimeout(() => {
         hiddenPrompt.classList.add('visible');
       }, 4000);
@@ -249,20 +356,17 @@ function executeTransmission() {
   if (hasInteracted) return;
   hasInteracted = true;
   
-  // Inizializza e avvia drone audio
+  // Inizializza audio PRIMA della transizione
   initDroneAudio();
   
-  // Select random haiku from protocol
   const haiku = protocolHaiku[Math.floor(Math.random() * protocolHaiku.length)];
   
-  // Transition to transmission phase
   transitionWithGlitch('emergence', 'transmission', () => {
-    // Avvia drone dopo la transizione
+    // Avvia drone DOPO la transizione
     setTimeout(() => {
       startDrone();
-    }, 500);
+    }, 300);
     
-    // Type the haiku
     setTimeout(() => {
       typeHaiku(haiku, haikuOutput);
     }, 800);
@@ -273,21 +377,18 @@ function executeTransmission() {
    EVENT LISTENERS
    ======================================== */
 
-// Click anywhere during emergence phase
 document.addEventListener('click', (e) => {
   if (phases.emergence.classList.contains('active') && !hasInteracted) {
     executeTransmission();
   }
 });
 
-// Touch support
 document.addEventListener('touchend', (e) => {
   if (phases.emergence.classList.contains('active') && !hasInteracted) {
     executeTransmission();
   }
 });
 
-// Keyboard trigger
 document.addEventListener('keydown', (e) => {
   if (phases.emergence.classList.contains('active') && !hasInteracted) {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -296,7 +397,6 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Auto-trigger after timeout
 setTimeout(() => {
   if (phases.emergence.classList.contains('active') && !hasInteracted) {
     executeTransmission();
@@ -320,13 +420,12 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Triple tap (mobile) - sul titolo o ovunque nella fase transmission
+// Triple tap (mobile)
 let tapCount = 0;
 let tapTimeout;
-const TAP_DELAY = 400; // ms tra i tap
+const TAP_DELAY = 400;
 
 document.addEventListener('touchend', (e) => {
-  // Solo nella fase transmission o emergence
   if (!phases.transmission.classList.contains('active') && !phases.emergence.classList.contains('active')) {
     return;
   }
@@ -346,38 +445,10 @@ document.addEventListener('touchend', (e) => {
   }
 });
 
-// Anche triple-tap sul titolo specificamente
-const titleElement = document.getElementById('title-glitch');
-if (titleElement) {
-  let titleTapCount = 0;
-  let titleTapTimeout;
-  
-  titleElement.addEventListener('touchend', (e) => {
-    e.stopPropagation();
-    titleTapCount++;
-    
-    if (titleTapCount === 1) {
-      titleTapTimeout = setTimeout(() => {
-        titleTapCount = 0;
-      }, TAP_DELAY * 3);
-    }
-    
-    if (titleTapCount >= 3) {
-      clearTimeout(titleTapTimeout);
-      titleTapCount = 0;
-      revealSecret();
-    }
-  });
-}
-
 function revealSecret() {
-  // Evita duplicati
   if (document.querySelector('.secret-message')) return;
   
-  // Glitch effect
   document.body.classList.add('glitch-transition');
-  
-  // Play static
   playStaticBurst();
   
   setTimeout(() => {
@@ -407,7 +478,6 @@ function revealSecret() {
   
   setTimeout(() => secret.style.opacity = '1', 100);
   
-  // Dopo 2 secondi, mostra hint per /protocol
   setTimeout(() => {
     secret.innerHTML = 'LET ME IN<br><span style="font-size: 0.4em; opacity: 0.6;">/protocol</span>';
   }, 2000);
@@ -418,7 +488,7 @@ function revealSecret() {
   }, 4000);
 }
 
-// Console message for source divers
+// Console easter egg
 console.log('%c█▓▒░ haiku.exe ░▒▓█', 'color: #8B0000; font-size: 20px; font-weight: bold;');
 console.log('%cHai trovato la console. Bene.', 'color: #666;');
 console.log('%cMa non è qui che troverai le risposte.', 'color: #666;');
