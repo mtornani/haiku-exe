@@ -445,11 +445,127 @@ document.addEventListener('touchend', (e) => {
   }
 });
 
+function playEasterEggSound() {
+  try {
+    const ctx = audioContext || new (window.AudioContext || window.webkitAudioContext)();
+    if (!audioContext) audioContext = ctx;
+    
+    if (ctx.state === 'suspended') ctx.resume();
+    
+    // === Suono "LET ME IN" - voce distorta simulata ===
+    
+    // Layer 1: Tono basso ominoso (come voce profonda)
+    const voice1 = ctx.createOscillator();
+    voice1.type = 'sawtooth';
+    voice1.frequency.setValueAtTime(85, ctx.currentTime);
+    voice1.frequency.linearRampToValueAtTime(80, ctx.currentTime + 1.5);
+    
+    const voiceFilter = ctx.createBiquadFilter();
+    voiceFilter.type = 'lowpass';
+    voiceFilter.frequency.setValueAtTime(400, ctx.currentTime);
+    voiceFilter.Q.setValueAtTime(5, ctx.currentTime);
+    
+    // Tremolo per effetto "parlato"
+    const tremolo = ctx.createOscillator();
+    tremolo.type = 'sine';
+    tremolo.frequency.setValueAtTime(6, ctx.currentTime);
+    
+    const tremoloGain = ctx.createGain();
+    tremoloGain.gain.setValueAtTime(0.3, ctx.currentTime);
+    
+    const voiceGain = ctx.createGain();
+    voiceGain.gain.setValueAtTime(0, ctx.currentTime);
+    voiceGain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + 0.1);
+    voiceGain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 1);
+    voiceGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 2);
+    
+    tremolo.connect(tremoloGain);
+    tremoloGain.connect(voiceGain.gain);
+    
+    voice1.connect(voiceFilter);
+    voiceFilter.connect(voiceGain);
+    voiceGain.connect(ctx.destination);
+    
+    voice1.start(ctx.currentTime);
+    tremolo.start(ctx.currentTime);
+    voice1.stop(ctx.currentTime + 2);
+    tremolo.stop(ctx.currentTime + 2);
+    
+    // Layer 2: Frequenza alta disturbante (whisper demoniaco)
+    const whisper = ctx.createOscillator();
+    whisper.type = 'sine';
+    whisper.frequency.setValueAtTime(666, ctx.currentTime); // ;)
+    
+    const whisperGain = ctx.createGain();
+    whisperGain.gain.setValueAtTime(0, ctx.currentTime);
+    whisperGain.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 0.3);
+    whisperGain.gain.linearRampToValueAtTime(0.05, ctx.currentTime + 1.5);
+    whisperGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 2);
+    
+    whisper.connect(whisperGain);
+    whisperGain.connect(ctx.destination);
+    
+    whisper.start(ctx.currentTime);
+    whisper.stop(ctx.currentTime + 2);
+    
+    // Layer 3: Rumore reversed (come voce al contrario)
+    const noiseLength = ctx.sampleRate * 2;
+    const noiseBuffer = ctx.createBuffer(1, noiseLength, ctx.sampleRate);
+    const noiseData = noiseBuffer.getChannelData(0);
+    
+    for (let i = 0; i < noiseLength; i++) {
+      // Envelope che sale invece di scendere (reversed feel)
+      const env = Math.pow(i / noiseLength, 2);
+      noiseData[i] = (Math.random() * 2 - 1) * env * 0.15;
+    }
+    
+    const noiseSource = ctx.createBufferSource();
+    noiseSource.buffer = noiseBuffer;
+    
+    const noiseFilter = ctx.createBiquadFilter();
+    noiseFilter.type = 'bandpass';
+    noiseFilter.frequency.setValueAtTime(800, ctx.currentTime);
+    noiseFilter.Q.setValueAtTime(2, ctx.currentTime);
+    
+    const noiseGain = ctx.createGain();
+    noiseGain.gain.setValueAtTime(0.25, ctx.currentTime);
+    noiseGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 2);
+    
+    noiseSource.connect(noiseFilter);
+    noiseFilter.connect(noiseGain);
+    noiseGain.connect(ctx.destination);
+    
+    noiseSource.start(ctx.currentTime);
+    
+    // Layer 4: "Knock knock" basso - bussata
+    [0, 0.3, 0.9].forEach((time) => {
+      const knock = ctx.createOscillator();
+      knock.type = 'sine';
+      knock.frequency.setValueAtTime(60, ctx.currentTime + time);
+      knock.frequency.exponentialRampToValueAtTime(30, ctx.currentTime + time + 0.15);
+      
+      const knockGain = ctx.createGain();
+      knockGain.gain.setValueAtTime(0.6, ctx.currentTime + time);
+      knockGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + time + 0.15);
+      
+      knock.connect(knockGain);
+      knockGain.connect(ctx.destination);
+      
+      knock.start(ctx.currentTime + time);
+      knock.stop(ctx.currentTime + time + 0.2);
+    });
+    
+  } catch (e) {
+    console.error('Easter egg audio error:', e);
+  }
+}
+
 function revealSecret() {
   if (document.querySelector('.secret-message')) return;
   
   document.body.classList.add('glitch-transition');
   playStaticBurst();
+  playEasterEggSound(); // Audio inquietante per l'easter egg
   
   setTimeout(() => {
     document.body.classList.remove('glitch-transition');
