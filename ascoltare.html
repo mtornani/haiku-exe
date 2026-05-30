@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIGNAL | haiku.exe</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    body {
+      overflow: hidden;
+    }
+
+    .signal-dot {
+      position: fixed;
+      bottom: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.5rem;
+      color: var(--blood);
+      opacity: 0;
+      animation: emerge 120s ease 120s forwards;
+    }
+
+    @keyframes emerge {
+      from { opacity: 0; }
+      to   { opacity: 0.35; }
+    }
+  </style>
+</head>
+<body>
+  <div class="scanlines"></div>
+  <div class="red-overlay"></div>
+
+  <div class="signal-dot">●</div>
+
+  <script>
+    /* ========================================
+       ASCOLTARE — PRESENZA AUDIO
+       Inizia a volume zero. Già in esecuzione.
+       ======================================== */
+
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const master = ctx.createGain();
+    master.gain.value = 1;
+    master.connect(ctx.destination);
+
+    // === LAYER A: IL RESPIRO ===
+    // Rumore filtrato, ciclo 25 secondi
+    // Il primo a diventare percepibile — minuto 3
+    function buildBreath() {
+      const bufLen = ctx.sampleRate * 4;
+      const buf = ctx.createBuffer(1, bufLen, ctx.sampleRate);
+      const data = buf.getChannelData(0);
+      for (let i = 0; i < bufLen; i++) data[i] = Math.random() * 2 - 1;
+
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+      src.loop = true;
+
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.value = 350;
+      filter.Q.value = 0.4;
+
+      const lfo = ctx.createOscillator();
+      lfo.frequency.value = 0.04; // 25 secondi per ciclo
+      const lfoGain = ctx.createGain();
+      lfoGain.gain.value = 180;
+      lfo.connect(lfoGain);
+      lfoGain.connect(filter.frequency);
+
+      const gain = ctx.createGain();
+      gain.gain.value = 0.00001;
+
+      src.connect(filter);
+      filter.connect(gain);
+      gain.connect(master);
+
+      src.start();
+      lfo.start();
+      return gain;
+    }
+
+    // === LAYER B: IL FONDAMENTO ===
+    // Sub-bass 40 Hz — sentito prima di essere udito
+    // Minuto 5
+    function buildFoundation() {
+      const osc = ctx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = 40;
+
+      const gain = ctx.createGain();
+      gain.gain.value = 0.00001;
+
+      osc.connect(gain);
+      gain.connect(master);
+      osc.start();
+      return gain;
+    }
+
+    // === LAYER C: IL BATTITO ===
+    // 48 BPM — 0.8 Hz
+    // Già in esecuzione da quando sei arrivato.
+    // Il tuo riconoscimento arriva al minuto 8.
+    function buildHeartbeat() {
+      const osc = ctx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = 45;
+
+      const lfo = ctx.createOscillator();
+      lfo.type = 'sine';
+      lfo.frequency.value = 0.8;
+
+      const lfoGain = ctx.createGain();
+      lfoGain.gain.value = 0.5;
+
+      const pulseGain = ctx.createGain();
+      pulseGain.gain.value = 0.5;
+
+      lfo.connect(lfoGain);
+      lfoGain.connect(pulseGain.gain);
+
+      const layerGain = ctx.createGain();
+      layerGain.gain.value = 0.00001;
+
+      osc.connect(pulseGain);
+      pulseGain.connect(layerGain);
+      layerGain.connect(master);
+
+      osc.start();
+      lfo.start();
+      return layerGain;
+    }
+
+    const breathGain     = buildBreath();
+    const foundationGain = buildFoundation();
+    const heartbeatGain  = buildHeartbeat();
+
+    function startEmergence() {
+      const t = ctx.currentTime;
+
+      // Layer A — 3 minuti
+      breathGain.gain.setValueAtTime(0.00001, t);
+      breathGain.gain.linearRampToValueAtTime(0.12, t + 180);
+
+      // Layer B — 5 minuti
+      foundationGain.gain.setValueAtTime(0.00001, t);
+      foundationGain.gain.linearRampToValueAtTime(0.35, t + 300);
+
+      // Layer C — 8 minuti
+      heartbeatGain.gain.setValueAtTime(0.00001, t);
+      heartbeatGain.gain.linearRampToValueAtTime(0.4, t + 480);
+    }
+
+    let activated = false;
+    const activate = () => {
+      if (activated) return;
+      activated = true;
+      ['mousemove', 'touchstart', 'keydown', 'scroll'].forEach(e =>
+        document.removeEventListener(e, activate)
+      );
+      ctx.resume().then(startEmergence);
+    };
+
+    ['mousemove', 'touchstart', 'keydown', 'scroll'].forEach(e =>
+      document.addEventListener(e, activate, { passive: true })
+    );
+
+    console.log('%cEri già dentro.', 'color: #1a1a1a;');
+  </script>
+</body>
+</html>
