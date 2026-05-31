@@ -20,6 +20,16 @@ let audioContext = null;
 let droneGain = null;
 let isAudioInitialized = false;
 
+// Presenza — traccia visite
+let hxVisits = 1;
+try {
+  hxVisits = parseInt(localStorage.getItem('hx_visits') || '0') + 1;
+  localStorage.setItem('hx_visits', hxVisits);
+} catch(e) {}
+if (hxVisits > 1) {
+  protocolHaiku.push("Eri andato.\nEro rimasto.\nUno di noi aspettava.");
+}
+
 // DOM Elements
 const phases = {
   void: document.getElementById('void'),
@@ -402,6 +412,31 @@ setTimeout(() => {
     executeTransmission();
   }
 }, 15000);
+
+// Page Visibility — sa quando vai e quando torni
+document.addEventListener('visibilitychange', () => {
+  if (!phases.transmission.classList.contains('active')) return;
+  if (document.hidden) {
+    document.title = 'torna.';
+  } else {
+    document.title = 'haiku.exe';
+    console.log('%cSei tornato.', 'color: #2a2a2a;');
+  }
+});
+
+// Idle — sa che sei fermo
+let idleTimer = null;
+let idleShown = false;
+const resetIdle = () => {
+  if (!phases.transmission.classList.contains('active') || idleShown) return;
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(() => {
+    console.log('%cSei ancora lì.', 'color: #8B0000;');
+    idleShown = true;
+  }, 60000);
+};
+document.addEventListener('mousemove', resetIdle);
+document.addEventListener('touchstart', resetIdle, { passive: true });
 
 /* ========================================
    EASTER EGGS
