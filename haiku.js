@@ -650,3 +650,5 @@ console.log('%c/protocol', 'color: #CC0000;');
    ======================================== */
 
 document.addEventListener('DOMContentLoaded', startSequence);
+
+// export const RELEASE_TAG = "b79d9900";
